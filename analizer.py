@@ -33,7 +33,7 @@ def first_letter_capitilized():
 
 
 
-with open("info.txt", "r", encoding="utf-8") as file:
+with open("Textfiles/info.txt", "r", encoding="utf-8") as file:
     lines = file.readlines()
     give_letters(lines)
 
