@@ -5,13 +5,16 @@ import sys
 lst = []
 count = 0
 none_found = 0
-runs = 1000
+runs = 10
 
 print("")
-print("(Please wait for progress to reach a 100.0 % otherwise the data will not be stored !!)")
+print("Please wait for progress to reach a (100.0%) otherwise the data will not be stored in the textfile!!")
+print("----------------------------------------------------------------------------------------------------")
+print("")
 
 while count < runs:
-    print("Progress : [ ",str(round((count/runs)*100,2)) + " % ]", end='\r',flush=True)
+    percentig = round((count/runs),2)
+    print("Progress : [ ",str(round(percentig*100,2)) + "% ] ", ("█" * (round(percentig * 10) - 1)) + ("-"*(10 - round(percentig*10)) ), end='\r',flush=True)
     try :
         page_to_scrape = requests.get("https://en.wikipedia.org/wiki/Special:Random")
         sooup = BeautifulSoup(page_to_scrape.text, "html.parser")
@@ -23,11 +26,11 @@ while count < runs:
          none_found += 1
          
 print("Progress : [ ",str(round((count/runs)*100,2)) + " % ", end='')
-print(" ] " + "(" + str(sys.getsizeof(lst)) + " bytes" + ")")
+print(" ] " + "(" + str(sys.getsizeof(lst)) + " bytes" + ")" , ("█" * round(percentig * 10)) )
 
 print("None found : " + str(none_found))
 
-with open("info.txt", "a", encoding="utf-8") as file:
+with open("Textfiles/info.txt", "a", encoding="utf-8") as file:
     for par in lst:
         if len(par) > 0:
             file.write(par)

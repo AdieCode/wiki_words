@@ -16,17 +16,17 @@ def give_letters(list_str):
     print("Writing to file ... done")
     unique_list = set(new_list)
 
-    with open("words.txt", "a", encoding="utf-8") as file:
+    with open("Textfiles/words.txt", "a", encoding="utf-8") as file:
         for word in unique_list:
             file.write(word.strip("\n")+"\n")
         file.close
 
 def first_letter_capitilized():
     print("Filtering none capitilized letters ... done")
-    with open("words.txt", "r", encoding="utf-8") as file:
+    with open("Textfiles/words.txt", "r", encoding="utf-8") as file:
         words = file.readlines()
 
-    with open("words.txt", "a", encoding="utf-8") as file:
+    with open("Textfiles/words.txt", "a", encoding="utf-8") as file:
         for word in words:
             if word[0].isupper():
                 file.write(word)
