@@ -24,7 +24,7 @@ while count < 100:
          none_found += 1
          
 
-print("]__100%__ " +(sys.getsizeof(lst) + " bytes"))
+print("]__100%__ " +(str(sys.getsizeof(lst)) + " bytes"))
 
 print("None found : " + str(none_found))
 
