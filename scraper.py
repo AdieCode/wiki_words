@@ -6,7 +6,7 @@ import time
 lst = []
 count = 0
 none_found = 0
-runs = 50
+runs = 100
 #█ ▌
 print("")
 print("Please wait for progress to reach a (100.0%) otherwise the data will not be stored in the textfile!!")
@@ -20,8 +20,8 @@ while count < runs:
     print("Progress : [ ",str(round(percentig*100,2)) + "% ] ", ("▌" * (round(percentig * 10) - 1)) + ("-"*(10 - round(percentig*10)) ), end='\r',flush=True)
     try :
         page_to_scrape = requests.get("https://en.wikipedia.org/wiki/Special:Random")
-        sooup = BeautifulSoup(page_to_scrape.text, "html.parser")
-        paragraph = sooup.find_all("p")
+        soup = BeautifulSoup(page_to_scrape.text, "html.parser")
+        paragraph = soup.find_all("p")
         if paragraph and len(paragraph[0].text) >8:
             count += 1
             lst.append(paragraph[0].text)

@@ -1,40 +1,22 @@
-def give_letters(list_str):
-    print("spliting to list of words ... done")
-    new_list = []
-    for item in list_str:
-        words = item.split(" ")  # Split by space
-        for word in words:
-            parts = word.split(",")  # Split each word by comma
-            for part in parts:
-                fragments = part.split(".")  # Split each part by dot
-                for fragment in fragments:
-                    subparts = fragment.split("(")  # Split each fragment by parentheses
-                    for subpart in subparts:
-                        subfragments = subpart.split(")")  # Split each subpart by closing parenthesis
-                        new_list.extend(subfragments)
-    
-    print("Writing to file ... done")
-    unique_list = set(new_list)
 
-    with open("Textfiles/words.txt", "a", encoding="utf-8") as file:
-        for word in unique_list:
-            file.write(word.strip("\n")+"\n")
-        file.close
-
-def first_letter_capitilized():
-    print("Filtering none capitilized letters ... done")
-    with open("Textfiles/words.txt", "r", encoding="utf-8") as file:
-        words = file.readlines()
-
-    with open("Textfiles/words.txt", "a", encoding="utf-8") as file:
-        for word in words:
-            if word[0].isupper():
-                file.write(word)
+import time
 
 
+def letter_counter(words):
+    list_count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    list_alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    for word in words:
+        for letter in word:
+            if letter.upper() in list_alphabet:
+                list_count[list_alphabet.index(letter.upper())] += 1
+
+
+    for i  in range(26) :
+        print(list_alphabet[i] + " : " + str(list_count[i]))
 
 with open("Textfiles/info.txt", "r", encoding="utf-8") as file:
-    lines = file.readlines()
-    give_letters(lines)
-
-first_letter_capitilized()
+    letter_counter(file.readlines())
+# for i in range(1, 11):
+#     print(i, end='\r')
+#     time.sleep(1)
+    
