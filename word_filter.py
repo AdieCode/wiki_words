@@ -1,7 +1,6 @@
 import re
 import os
-
-
+import time
 
 def add_words_to_file(words):
     """
@@ -15,9 +14,8 @@ def add_words_to_file(words):
     path = "Textfiles/words.txt"
 
     #if the file is not found it will create a new one 
-    if not os.path.exists(path):
-        with open(path, "w", encoding="utf-8") as file:
-            pass
+    with open(path, "w", encoding="utf-8") as file:
+        pass
     
     #Words will now get appended to the file one for one
     with open(path, "a", encoding="utf-8") as file:
@@ -63,25 +61,38 @@ def filter_words(words):
     """
     #create empty list for the clean words to be appended to.
     clean_words = []
+    count = 0
+    refresh = 0
+    to_go = len(words)
 
     for word in words:
 
         #removes symboles an from word
         clean_word = re.sub(r'[^a-zA-Z\s]', '', word)  #word.translate({ord(i): None for i in '!?[]/:;﻿<>^~%°'})
-     
+
+        #increase count to check progress
+        count += 1
+        if refresh <count:
+            refresh += 1000
+            print("Progress : ", round((count/to_go)*100, 2) ,"%",end="\r",flush=True)
+
         #adds the clean word to the new list of clean words
         if clean_word and (clean_word not in clean_words):
             clean_words.append(clean_word)
 
-    print("words cleaned",flush=True)
+    print("\n"+"words cleaned",flush=True)
 
     sorted_words = sorted(clean_words)
     return sorted_words
         
 
 with open("Textfiles/info.txt", "r", encoding="utf-8") as file:
+    start_time = time.time()
     lines = file.readlines()
     words = convert_lines_to_words(lines)
     clean_words = filter_words(words)
     add_words_to_file(clean_words)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print("Elapsed Time: ", round((elapsed_time / 60), 2), " minutes")
 

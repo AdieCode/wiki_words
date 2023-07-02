@@ -22,9 +22,11 @@ while count < runs:
         page_to_scrape = requests.get("https://en.wikipedia.org/wiki/Special:Random")
         soup = BeautifulSoup(page_to_scrape.text, "html.parser")
         paragraph = soup.find_all("p")
-        if paragraph and len(paragraph[0].text) >8:
+        if paragraph:
             count += 1
-            lst.append(paragraph[0].text)
+            for sentence in range(len(paragraph)):
+                    lst.append(paragraph[sentence].text)
+
     except:
         none_found += 1
 
