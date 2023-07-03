@@ -22,7 +22,7 @@ def create_dictionary(words):
 with open("Textfiles/words.txt", "r", encoding="utf-8") as file:
     list_def = []
     list_words = file.readlines()
-    for index in range(0,200):
+    for index in range(0,300):
 
         list_def.append(list_words[random.randint(0,100000)].strip("\n"))
 

@@ -1,6 +1,7 @@
 import re
-import os
 import time
+from tqdm import tqdm
+from memory_profiler import profile
 
 def add_words_to_file(words):
     """
@@ -17,12 +18,18 @@ def add_words_to_file(words):
     with open(path, "w", encoding="utf-8") as file:
         pass
     
+
     #Words will now get appended to the file one for one
     with open(path, "a", encoding="utf-8") as file:
-        for word in words:
-            file.write(word+"\n")
 
-    print("words added to file",flush=True)
+        # Wrap the loop with tqdm to create the progress bar
+        with tqdm(total=len(words), desc="Adding Words To File", unit="word") as pbar:
+                for word in words:
+                    file.write(word+"\n")
+                    pbar.update(1)
+
+        print("words added to file...done",flush=True)
+        print("",flush=True)
 
 
 
@@ -37,15 +44,20 @@ def convert_lines_to_words(lines):
     """
     #create empty list for the split_line's words to be stor
     words = []
-    
-    #loops through the paragraphs to split the lines
-    for line in lines:
 
-        #splits the lines based on a regex pattern and adds them to words
-        split_line = re.split(r'\W+', line)
-        words += split_line
-    
-    print("words extracted",flush=True)
+     # Wrap the loop with tqdm to create the progress bar
+    with tqdm(total=len(lines), desc="Extracting Words", unit="word") as pbar:
+
+        #loops through the paragraphs to split the lines
+        for line in lines:
+
+            #splits the lines based on a regex pattern and adds them to words
+            split_line = re.split(r'\W+', line)
+            words += split_line
+            pbar.update(1)
+        
+    print("words extracted...done",flush=True)
+    print("",flush=True)
     return words
 
 
@@ -61,32 +73,34 @@ def filter_words(words):
     """
     #create empty list for the clean words to be appended to.
     clean_words = []
-    count = 0
-    refresh = 0
-    to_go = len(words)
 
-    for word in words:
+    # Wrap the loop with tqdm to create the progress bar
+    with tqdm(total=len(words), desc="Filtering Words", unit="word") as pbar:
 
-        #removes symboles an from word
-        clean_word = re.sub(r'[^a-zA-Z\s]', '', word)  #word.translate({ord(i): None for i in '!?[]/:;﻿<>^~%°'})
+        for word in words:
 
-        #increase count to check progress
-        count += 1
-        if refresh <count:
-            refresh += 1000
-            print("Progress : ", round((count/to_go)*100, 2) ,"%",end="\r",flush=True)
+            #removes symboles an from word
+            clean_word = re.sub(r'[^a-zA-Z\s]', '', word)  #word.translate({ord(i): None for i in '!?[]/:;﻿<>^~%°'})
 
-        #adds the clean word to the new list of clean words
-        if clean_word and (clean_word not in clean_words):
-            clean_words.append(clean_word)
+            #adds the clean word to the new list of clean words
+            if clean_word and (clean_word not in clean_words):
+                clean_words.append(clean_word)
 
-    print("\n"+"words cleaned",flush=True)
+            # Update the progress bar after processing each word
+            pbar.update(1)  
+
+
+    print("words cleaned...done",flush=True)
+    print("",flush=True)
 
     sorted_words = sorted(clean_words)
     return sorted_words
         
 
+
+
 with open("Textfiles/info.txt", "r", encoding="utf-8") as file:
+    print("")
     start_time = time.time()
     lines = file.readlines()
     words = convert_lines_to_words(lines)
@@ -95,4 +109,5 @@ with open("Textfiles/info.txt", "r", encoding="utf-8") as file:
     end_time = time.time()
     elapsed_time = end_time - start_time
     print("Elapsed Time: ", round((elapsed_time / 60), 2), " minutes")
+    print("")
 
