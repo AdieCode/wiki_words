@@ -1,5 +1,8 @@
 # Web_scraper
 
+A web scraping project that extracts random articles from wikipedia 
+And extracts, filters and analyzes the extracted content.<br />
+
 The scraping project consists out of the scraping python file that extracts
 Paragraphs from random articles and stores them in a text file. The project also has a word extraction Python file that extracts words from the scraped articles and stores them in a text file, (excluding duplicates).<br />
 
