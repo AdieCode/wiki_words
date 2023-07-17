@@ -93,7 +93,7 @@ def Scrape_wiki(runs):
 print("\n"+"Please wait for progress to reach a (100%) otherwise the data will not be stored in the textfile! { this might take a while...} " + "-"*127 + "\n")
 start_time = time.time()
 
-content_list, none_found = Scrape_wiki(10)
+content_list, none_found = Scrape_wiki(1000)
 add_content_to_file(content_list)
 
 end_time = time.time()
